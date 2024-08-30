@@ -1,46 +1,46 @@
 <?php
-$dsn = 'mysql:dbname=php_db_app;host=localhost;charset=utf8mb4';
-$user = 'root';
-$password = '';
+$dsn = 'mysql:dbname=thqg3nr66e7id991p;host=uyu7j8yohcwo35j3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306;charset=utf8mb4';
+$user = 'kur19ll6iucl2g22';
+$password = 'ukw8bf73q08c6ylc';
 
 // submitパラメータの値が存在するとき（「更新」ボタンを押したとき）の処理
 if (isset($_POST['submit'])) {
-  try {
-      $pdo = new PDO($dsn, $user, $password);
+    try {
+    $pdo = new PDO($dsn, $user, $password);
 
       // 動的に変わる値をプレースホルダに置き換えたUPDATE文をあらかじめ用意する
-      $sql_update = '
-          UPDATE products
-          SET product_code = :product_code,
-          product_name = :product_name,
-          price = :price,
-          stock_quantity = :stock_quantity,
-          vendor_code = :vendor_code
-          WHERE id = :id
-      ';
-      $stmt_update = $pdo->prepare($sql_update);
+    $sql_update = '
+        UPDATE products
+        SET product_code = :product_code,
+        product_name = :product_name,
+        price = :price,
+        stock_quantity = :stock_quantity,
+        vendor_code = :vendor_code
+        WHERE id = :id
+    ';
+    $stmt_update = $pdo->prepare($sql_update);
 
       // bindValue()メソッドを使って実際の値をプレースホルダにバインドする（割り当てる）
-      $stmt_update->bindValue(':product_code', $_POST['product_code'], PDO::PARAM_INT);
-      $stmt_update->bindValue(':product_name', $_POST['product_name'], PDO::PARAM_STR);
-      $stmt_update->bindValue(':price', $_POST['price'], PDO::PARAM_INT);
-      $stmt_update->bindValue(':stock_quantity', $_POST['stock_quantity'], PDO::PARAM_INT);
-      $stmt_update->bindValue(':vendor_code', $_POST['vendor_code'], PDO::PARAM_INT);
-      $stmt_update->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':product_code', $_POST['product_code'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':product_name', $_POST['product_name'], PDO::PARAM_STR);
+    $stmt_update->bindValue(':price', $_POST['price'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':stock_quantity', $_POST['stock_quantity'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':vendor_code', $_POST['vendor_code'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
 
       // SQL文を実行する
-      $stmt_update->execute();
+    $stmt_update->execute();
 
       // 更新した件数を取得する
-      $count = $stmt_update->rowCount();
+    $count = $stmt_update->rowCount();
 
-      $message = "商品を{$count}件編集しました。";
+    $message = "商品を{$count}件編集しました。";
 
       // 商品一覧ページにリダイレクトさせる（同時にmessageパラメータも渡す）
-      header("Location: read.php?message={$message}");
-  } catch (PDOException $e) {
-      exit($e->getMessage());
-  }
+    header("Location: read.php?message={$message}");
+} catch (PDOException $e) {
+    exit($e->getMessage());
+}
 }
 
  // idパラメータの値が存在すれば処理を行う
